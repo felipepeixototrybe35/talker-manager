@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
 const readJsonData = require('../utils/fs/readJsonData');
+
 const router = express.Router();
 const PATH = path.resolve('src', 'talker.json');
+const HTTP_OK_STATUS = 200;
 
 router.get('/talker', async (req, res) => {
   const content = await readJsonData(PATH);
