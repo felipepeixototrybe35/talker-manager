@@ -4,13 +4,21 @@ const readJsonData = require('../utils/fs/readJsonData');
 
 const router = express.Router();
 const PATH = path.resolve('src', 'talker.json');
-const HTTP_OK_STATUS = 200;
 
 router.get('/talker', async (req, res) => {
   const content = await readJsonData(PATH);
   
   if (!content) return res.status(200).json([]);
-  res.status(HTTP_OK_STATUS).json(content);
+  res.status(200).json(content);
+});
+
+router.get('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const content = await readJsonData(PATH);
+  const talkerFound = content.find((talker) => talker.id === +id);
+
+  if (!talkerFound) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  res.status(200).json(talkerFound);
 });
 
 module.exports = router;
