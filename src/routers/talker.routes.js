@@ -24,6 +24,27 @@ router.get('/talker/:id', async (req, res) => {
   res.status(200).json(talkerFound);
 });
 
+router.put('/talker/:id',
+  auth,
+  aut.validateName,
+  aut.validateAge,
+  aut.validateTalk,
+  aut.validateWatchedAt,
+  aut.validateRate,
+  async (req, res) => {
+    const { id } = req.params;
+    const talkerJson = await readJsonData(PATH);
+    if (talkerJson.find((el) => el.id === Number(id)) === undefined) {
+      return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+    }
+    const newTalkerJson = talkerJson.map((e) => {
+      if (e.id === Number(id)) return { id: Number(id), ...req.body };
+      return e;
+    });
+    await writeJsonData(PATH, newTalkerJson);
+    res.status(200).json({ id: Number(id), ...req.body });
+  });
+
 router.post('/talker',
   auth,
   aut.validateName,
