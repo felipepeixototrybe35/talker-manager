@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 const readJsonData = require('../utils/fs/readJsonData');
-const auth = require('../middlewares/validateTalker');
-const validateName = require('../middlewares/validateTalker');
+const writeJsonData = require('../utils/fs/writeJsonData');
+const auth = require('../middlewares/auth');
+const aut = require('../middlewares/validateTalker');
 
 const router = express.Router();
 const PATH = path.resolve('src', 'talker.json');
@@ -23,11 +24,20 @@ router.get('/talker/:id', async (req, res) => {
   res.status(200).json(talkerFound);
 });
 
-// router.post('/talker',
-// auth,
-// validateName,
-// async (req, res) => {
-
-// });
+router.post('/talker',
+  auth,
+  aut.validateName,
+  aut.validateAge,
+  aut.validateTalk,
+  aut.validateWatchedAt,
+  aut.validateRate,
+  async (req, res) => {
+    const newTalker = { ...req.body };
+    const dataJson = await readJsonData(PATH);
+    const nextId = (dataJson.length + 1);
+    dataJson.push({ id: nextId, ...newTalker });
+    await writeJsonData(PATH, dataJson);
+    res.status(201).json({ id: nextId, ...newTalker });
+  });
 
 module.exports = router;
