@@ -1,5 +1,5 @@
 const aut = (req, res, next) => {
-  const authorization = req.headers.authorization;
+  const { authorization } = req.headers;
   if (!authorization) return res.status(401).json({ message: 'Token não encontrado' });
   if (authorization.length !== 16) return res.status(401).json({ message: 'Token inválido' });
   next();
@@ -35,7 +35,7 @@ const validateTalk = (req, res, next) => {
 };
 
 const validateWatchedAt = (req, res, next) => {
-  const watchedAt = req.body.talk.watchedAt;
+  const { watchedAt } = req.body.talk;
   const regexDate = /^(\d{2})\/(\d{2})\/(\d{4})$/;
   if (!watchedAt) {  
     return res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' });
