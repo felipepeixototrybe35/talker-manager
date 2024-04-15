@@ -61,4 +61,12 @@ router.post('/talker',
     res.status(201).json({ id: nextId, ...newTalker });
   });
 
+router.delete('/talker/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  const dataJson = await readJsonData(PATH);
+  const delData = dataJson.find((e) => e.id !== Number(id));
+  await writeJsonData(PATH, delData);
+  res.status(204).send();
+});
+
 module.exports = router;
