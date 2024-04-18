@@ -15,6 +15,15 @@ router.get('/talker', async (req, res) => {
   res.status(200).json(content);
 });
 
+router.get('/talker/search', auth, async (req, res) => {
+  const { q } = req.query;
+  const result = await readJsonData(PATH);
+  if (!q) return res.status(200).json(result);
+  const searched = result.filter((e) => e.name.toLowerCase().includes(q.toLowerCase()));
+  if (searched === undefined) return res.status(200).json([]);
+  res.status(200).json(searched);
+});
+
 router.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const content = await readJsonData(PATH);
