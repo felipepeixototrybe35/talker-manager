@@ -1,3 +1,5 @@
+Este projeto é fruto do curso de Desenvolvedor Web FullStack da Trybe, por isso os commits vem separados por requisitos. Parte do desenvolvimento do código foi realizado pela Trybe, os arquivos em que eu desenvolvi código são os explícitos nos commits.
+
 Essa aplicação trata-se de um cadastro de talkers (palestrantes) sendo possível cadastrar, visualizar, pesquisar, editar e excluir informações. Para isso desenvolvi uma API de um CRUD (Create, Read, Update e Delete) de palestrantes (talkers) e alguns endpoints que irão ler e escrever em um arquivo utilizando o módulo fs.
 
 Requisito 1 >> Endpoint GET /talker
